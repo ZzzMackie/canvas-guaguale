@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<style type="text/css" media="screen">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		html {
+			font-size: calc(100vw/750*100);
+		}
+
+		#id {
+			background-image: url('./kobe12.png');
+			background-repeat: no-repeat;
+			background-position: 50%;
+			background-size: contain;
+			border: 1px solid red;
+			border-radius: 10px;
+			cursor: pointer;
+		}
+
+		#tu {
+			position: absolute;
+			top: calc(50% - 169px);
+			left: calc(50% - 270px);
+			background-image: url('./kobe12.png');
+			background-repeat: no-repeat;
+			background-position: 50%;
+			background-size: contain;
+			border: 1px solid red;
+			border-radius: 10px;
+			box-sizing: border-box;
+			cursor: pointer;
+		}
+
+		@media screen and (max-width:1024px) {
+			#tu {
+				width: 5.4rem !important;
+				height: 3.38rem !important;
+				top: calc(50% - 1.69rem);
+				left: calc(50% - 2.70rem);
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<!-- <canvas id="id" height="450" width="450">
+
+	</canvas> -->
+	<canvas id="tu" height="338" width="540">
+
+	</canvas>
+	<script type="text/javascript" charset="utf-8" async defer>
+
+
+
+		(function () {
+
+			class Init {
+				constructor({ id = 'id', color = '#ccc' }) {
+					this.canvas = document.getElementById(id);
+					this.ctx = this.canvas.getContext('2d');
+					this.ctx.fillStyle = color;
+					this.x = null;
+					this.y = null;
+					this.H = this.canvas.height;
+					this.W = this.canvas.width;
+					this.ctx.fillRect(0, 0, this.W, this.H);
+					this.ctx.globalCompositeOperation = 'destination-out';
+					this.ctx.lineCap = 'round'
+					this.ctx.lineWidth = 25;
+					this.bindEvend()
+
+				}
+				bindEvend() {
+					if (/Android|webOs|iPhone|iPad|ipod|BlackBerry/i.test(navigator.userAgent)) {
+						this.canvas.addEventListener('touchstart', this.down.bind(this), false);
+					} else {
+						this.canvas.addEventListener('mousedown', this.down.bind(this), false);
+					}
+				}
+				down(e) {
+					var e = e || event;
+					
+					this.x = e.offsetX || e.touches[0].clientX | 0;
+					console.log(this.x )
+					this.y = e.offsetY || e.touches[0].clientY | 0;
+					this.nemove = this.move.bind(this);
+					if (/Android|webOs|iPhone|iPad|ipod|BlackBerry/i.test(navigator.userAgent)) {
+						
+						document.addEventListener('touchmove', this.nemove, false);
+						document.addEventListener('touchend', this.up.bind(this), false);
+					} else {
+						// this.x = e.offsetX;
+						// this.y = e.offsetY;
+						document.addEventListener('mousemove', this.nemove, false);
+						document.addEventListener('mouseup', this.up.bind(this), false);
+					}
+				}
+				move(e) {
+					var x = e.offsetX || e.touches[0].clientX | 0;
+					var y = e.offsetY || e.touches[0].clientY | 0;
+					this.ctx.moveTo(this.x, this.y),
+						this.ctx.lineTo(this.x, this.y);
+					this.ctx.stroke();
+					this.x = e.offsetX || e.touches[0].clientX | 0;
+					this.y = e.offsetY || e.touches[0].clientY | 0;
+
+				}
+				up(e) {
+					if (/Android|webOs|iPhone|iPad|ipod|BlackBerry/i.test(navigator.userAgent)) {
+						document.removeEventListener('touchmove', this.nemove, false);
+					} else {
+						document.removeEventListener('mousemove', this.nemove, false);
+					}
+
+					console.log('up');
+					this.clearAll();
+				}
+				clearAll() {
+					var imgData = this.ctx.getImageData(0, 0, this.W, this.H);
+					console.log(imgData)
+					var data = imgData.data;
+					var row = imgData.height;
+					var count = 0;
+					for (var i = 0; i < data.length; i += 4) {
+						if (data[i + 3] == 0) {
+							count++;
+						}
+					}
+					if (count > row * this.H * 0.6) {
+						this.ctx.clearRect(0, 0, this.W, this.H);
+					}
+				}
+			}
+
+			// var canvas = document.getElementById('id');
+			// var ctx = canvas.getContext('2d');
+			// ctx.fillStyle = '#ccc';
+			// console.log(canvas)
+			// var x, y;
+			// var H = canvas.height,
+			// 	W = canvas.width;
+			// ctx.fillRect(0, 0, W, H);
+			// ctx.globalCompositeOperation = 'destination-out';
+			// ctx.lineCap = 'round'
+			// ctx.lineWidth = 25;
+			// canvas.addEventListener('mousedown', down, false);
+
+			// function down(e) {
+			// 	var e = e || event;
+			// 	x = e.offsetX;
+			// 	y = e.offsetY;
+
+			// 	document.addEventListener('mousemove', move, false);
+			// 	document.addEventListener('mouseup', up, false);
+			// }
+
+			// function move(e) {
+			// 	// ctx.strokeStyle = '#fff';
+
+			// 	ctx.moveTo(x, y),
+			// 	ctx.lineTo(e.offsetX, e.offsetY);
+			// 	ctx.stroke();
+			// 	x = e.offsetX;
+			// 	y = e.offsetY;
+
+			// }
+
+			// function up(e) {
+			// 	document.removeEventListener('mousemove', move, false);
+			// 	console.log('up');
+			// 	clearAll();
+			// }
+
+			// function clearAll() {
+			// 	var imgData = ctx.getImageData(0, 0, W, H);
+
+			// 	var data = imgData.data;
+			// 	var row = imgData.height;
+			// 	var count = 0;
+			// 	for (var i = 0; i < data.length; i += 4) {
+			// 		if (data[i + 3] == 0) {
+			// 			count++;
+			// 		}
+			// 	}
+			// 	if (count > row * H * 0.6) {
+			// 		ctx.clearRect(0, 0, W, H);
+			// 	}
+			// }
+
+			window.canvasTutu = Init;
+		}())
+		var tutu = new canvasTutu({
+			id: 'tu'
+		});
+		// window.onmessage(function(){
+
+		// },'')
+	</script>
+</body>
+
+</html>
