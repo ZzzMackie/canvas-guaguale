@@ -91,7 +91,7 @@
 					var e = e || event;
 					
 					this.x = e.offsetX || e.touches[0].clientX | 0;
-					console.log(this.x )
+					console.log(e )
 					this.y = e.offsetY || e.touches[0].clientY | 0;
 					this.nemove = this.move.bind(this);
 					if (/Android|webOs|iPhone|iPad|ipod|BlackBerry/i.test(navigator.userAgent)) {
@@ -109,7 +109,7 @@
 					var x = e.offsetX || e.touches[0].clientX | 0;
 					var y = e.offsetY || e.touches[0].clientY | 0;
 					this.ctx.moveTo(this.x, this.y),
-						this.ctx.lineTo(this.x, this.y);
+						this.ctx.lineTo(x, y);
 					this.ctx.stroke();
 					this.x = e.offsetX || e.touches[0].clientX | 0;
 					this.y = e.offsetY || e.touches[0].clientY | 0;
